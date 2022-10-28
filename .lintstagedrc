@@ -1,9 +1,9 @@
 {
   "*.{ts,tsx}": [
-    "npm run prettier:fix",
-    "npm run lint:fix"
+    "pnpm run prettier:fix",
+    "pnpm run lint:fix"
   ],
   "*.{css}": [
-    "npm run lint:css"
+    "pnpm run lint:css"
   ]
 }
