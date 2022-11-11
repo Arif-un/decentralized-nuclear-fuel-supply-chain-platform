@@ -5,7 +5,9 @@ specifiers:
   '@commitlint/cli': ^17.x
   '@commitlint/config-conventional': ^17.x
   '@commitlint/prompt-cli': ^17.x
+  '@commitlint/types': ^17.0.0
   '@fvilers/disable-react-devtools': ^1.x
+  '@headlessui/react': ^1.7.4
   '@reduxjs/toolkit': ^1.8.6
   '@tailwindcss/forms': ^0.5.3
   '@tailwindcss/typography': ^0.5.7
@@ -54,6 +56,7 @@ specifiers:
   web-vitals: ^3.x
 
 dependencies:
+  '@headlessui/react': 1.7.4_biqbaboplfbrettd7655fr4n2y
   '@reduxjs/toolkit': 1.8.6_kuo2ie247izvzll3jejufdtq3q
   daisyui: 2.33.0_axqeqcuz5amcmkns6zo6im645q
   react: 18.2.0
@@ -67,6 +70,7 @@ devDependencies:
   '@commitlint/cli': 17.1.2
   '@commitlint/config-conventional': 17.1.0
   '@commitlint/prompt-cli': 17.1.2
+  '@commitlint/types': 17.0.0
   '@fvilers/disable-react-devtools': 1.3.0
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.1
   '@tailwindcss/typography': 0.5.7_tailwindcss@3.2.1
@@ -812,6 +816,18 @@ packages:
   /@fvilers/disable-react-devtools/1.3.0:
     resolution: {integrity: sha512-LbASP6voPkKS5b6OlQhupEDtMeoAakamauqLEFHatkQUTmblNY5nPK7/eSqKBXxExT6uypVPczpTsJjJIrhpOQ==}
     dev: true
+
+  /@headlessui/react/1.7.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-D8n5yGCF3WIkPsjEYeM8knn9jQ70bigGGb5aUvN6y4BGxcT3OcOQOKcM3zRGllRCZCFxCZyQvYJF6ZE7bQUOyQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /@humanwhocodes/config-array/0.11.6:
     resolution: {integrity: sha512-jJr+hPTJYKyDILJfhNSHsjiwXYf26Flsz8DvNndOsHs5pwSnpGUEy8yzF0JYhCEvTDdV2vuOK5tt8BVhwO5/hg==}
@@ -2116,6 +2132,10 @@ packages:
     resolution: {integrity: sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==}
     engines: {node: '>= 10'}
     dev: true
+
+  /client-only/0.0.1:
+    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+    dev: false
 
   /cliui/5.0.0:
     resolution: {integrity: sha512-PYeGSEmmHM6zvoef2w8TPzlrnNpXIjTipYK780YswmIP9vjxmd6Y2a3CB2Ks6/AU8NHjZugXvo8w3oWM2qnwXA==}
@@ -3914,7 +3934,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       ansi-escapes: 4.3.2
-      chalk: 4.1.1
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-width: 3.0.0
       external-editor: 3.1.0
@@ -4493,7 +4513,7 @@ packages:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
     engines: {node: '>=10'}
     dependencies:
-      chalk: 4.1.1
+      chalk: 4.1.2
       is-unicode-supported: 0.1.0
     dev: true
 
@@ -4973,7 +4993,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       bl: 4.1.0
-      chalk: 4.1.1
+      chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.7.0
       is-interactive: 1.0.0
