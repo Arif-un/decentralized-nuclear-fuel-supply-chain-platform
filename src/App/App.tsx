@@ -1,32 +1,47 @@
-import { useState } from 'react'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-import './App.css'
-import reactLogo from './react.svg'
+import Layout from '@/components/Layout/Layout'
+import useTypedSelector from '@/hooks/useTypedSelector'
+import Dashboard from '@/pages/Dashboard/Dashboard'
+import Login from '@/pages/Login'
+import Suppliers from '@/pages/Suppliers/Suppliers'
+import AddUser from '@/pages/Users/AddUser'
+import Users from '@/pages/Users/Users'
+
+const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: '/dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: '/users',
+        element: <Users />,
+      },
+      {
+        path: '/add-user',
+        element: <AddUser />,
+      },
+      {
+        path: '/suppliers',
+        element: <Suppliers />,
+      },
+    ],
+  },
+])
 
 export const App = () => {
-  const [count, setCount] = useState(0)
-
+  const theme = useTypedSelector((state) => state.AppSettingsSlice.theme)
   return (
-    <div className="App">
-      <div className="flex">
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/icons/favicon.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-        <a href="https://github.com/eruptionjs/core" target="_blank" rel="noreferrer">
-          <span className="logo eruption">🌋</span>
-        </a>
-      </div>
-      <h1>Vite + React + Eruption</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite, React and Eruption logos to learn more</p>
+    <div data-theme={theme === 'light' ? 'light' : 'cark'} className={`${theme} h-full`}>
+      <RouterProvider router={router} />
     </div>
   )
 }
