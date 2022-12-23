@@ -1,12 +1,41 @@
-import { Link } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
+
+import { useMetaMask } from 'metamask-react'
 
 import { toggleTheme } from '@/global-states/AppSettings'
 import useTypedDispatch from '@/hooks/useTypedDispatch'
 import useTypedSelector from '@/hooks/useTypedSelector'
+import useUserLogin from '@/utils/findUser'
 
 export default function Login() {
   const theme = useTypedSelector((state) => state.AppSettingsSlice.theme)
   const dispatch = useTypedDispatch()
+  const metamask = useMetaMask()
+  const userLogin = useUserLogin()
+
+  if (userLogin) {
+    return <Navigate replace to="/dashboard" />
+  }
+
+  const handleLogin = () => {
+    if (!window?.ethereum) {
+      // eslint-disable-next-line no-alert
+      alert('Please install MetaMask')
+    }
+    if (metamask.status !== 'connected') {
+      metamask.connect()
+    } else {
+      window.ethereum.request({
+        method: 'wallet_requestPermissions',
+        params: [
+          {
+            eth_accounts: {},
+          },
+        ],
+      })
+      // metamask.connect
+    }
+  }
 
   return (
     <div className="h-full flex justify-center items-center dark:bg-slate-900">
@@ -38,29 +67,17 @@ export default function Login() {
       >
         <h1 className="text-center font-semibold text-lg">Login 🚀</h1>
         <br />
-        <label htmlFor="email">Email/User ID</label>
-        <input
-          id="email"
-          type="text"
-          placeholder="example@email.com"
-          className="input input-bordered focus:outline-2 focus:outline-lime-400 w-full mt-1 mb-2"
-        />
-        <label htmlFor="email">Password</label>
-        <input
-          id="email"
-          type="password"
-          placeholder="Type Password Here..."
-          className="input input-bordered focus:outline-2 focus:outline-lime-400 w-full mt-1 mb-3"
-        />
-        <button className="btn btn-primary mt-4 ">Login</button>
-        <div>
-          <Link
-            to=""
-            className="btn btn-link no-underline font-light btn-sm mt-2 px-0 normal-case text-slate-400"
-          >
-            Forgot password
-          </Link>
-        </div>
+
+        <button className="btn btn-primary mt-4" onClick={handleLogin}>
+          <img
+            height="30"
+            width="30"
+            className="mr-2"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/800px-MetaMask_Fox.svg.png"
+            alt="metamask logo"
+          />
+          Login With MetaMask
+        </button>
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ const initialState: AppSettingsStateType = {
 }
 
 export const AppSettingsSlice = createSlice({
-  name: 'counter',
+  name: 'appSettingsState',
   initialState,
   reducers: {
     toggleTheme: (state: AppSettingsStateType) => {

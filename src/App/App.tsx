@@ -1,5 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
+import { MetaMaskProvider } from 'metamask-react'
+
 import Layout from '@/components/Layout/Layout'
 import useTypedSelector from '@/hooks/useTypedSelector'
 import Dashboard from '@/pages/Dashboard/Dashboard'
@@ -39,9 +41,12 @@ const router = createBrowserRouter([
 
 export const App = () => {
   const theme = useTypedSelector((state) => state.AppSettingsSlice.theme)
+
   return (
-    <div data-theme={theme === 'light' ? 'light' : 'cark'} className={`${theme} h-full`}>
-      <RouterProvider router={router} />
+    <div data-theme={theme === 'light' ? 'light' : 'dark'} className={`${theme} h-full`}>
+      <MetaMaskProvider>
+        <RouterProvider router={router} />
+      </MetaMaskProvider>
     </div>
   )
 }

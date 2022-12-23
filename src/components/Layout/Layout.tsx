@@ -1,10 +1,11 @@
 import { FiUser } from 'react-icons/fi'
 import { MdOutlineSpaceDashboard } from 'react-icons/md'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Navigate, Outlet } from 'react-router-dom'
 
 import { toggleTheme } from '@/global-states/AppSettings'
 import useTypedDispatch from '@/hooks/useTypedDispatch'
 import useTypedSelector from '@/hooks/useTypedSelector'
+import useUserLogin from '@/utils/findUser'
 
 import css from './Layout.module.css'
 
@@ -17,6 +18,12 @@ const sidebarLinks = [
 export default function Layout() {
   const theme = useTypedSelector((state) => state.AppSettingsSlice.theme)
   const dispatch = useTypedDispatch()
+  const userLogin = useUserLogin()
+
+  if (!userLogin) {
+    return <Navigate replace to="/login" />
+  }
+
   return (
     <div className="h-full">
       <nav className="px-5 py-3 flex justify-between">
