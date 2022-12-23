@@ -31,6 +31,7 @@
     "react-hooks/exhaustive-deps": "error",
     "no-console": "warn",
     "semi": "error",
+    "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "no-restricted-imports": "off",
     "@typescript-eslint/no-restricted-imports": [
