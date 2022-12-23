@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import { useMetaMask } from 'metamask-react'
-import Web3 from 'web3'
-import type { AbiItem } from 'web3-utils'
 
 import { setAccountInfo } from '@/global-states/UserState'
 import useTypedSelector from '@/hooks/useTypedSelector'
 
-import userJson from '../../build/contracts/Users.json'
+import userContract from '../data/userContract'
 import store from '../global-states/store'
 
 export default function useUserLogin() {
@@ -20,15 +18,8 @@ export default function useUserLogin() {
       return undefined
     }
 
-    const web3 = new Web3(metaMask.ethereum)
-
-    const userContract = new web3.eth.Contract(
-      userJson.abi as AbiItem[],
-      userJson.networks['5777'].address,
-    )
-
-    userContract.methods
-      .getUserByAccountHash(metaMask.account)
+    userContract(metaMask.ethereum)
+      .methods.getUserByAccountHash(metaMask.account)
       .call()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .then((res: any) => {
@@ -49,7 +40,7 @@ export default function useUserLogin() {
       })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [metaMask.account])
+  }, [metaMask.account, userContract])
 
   if (metaMask.account === userAccountHash && !login) {
     setLogin(true)

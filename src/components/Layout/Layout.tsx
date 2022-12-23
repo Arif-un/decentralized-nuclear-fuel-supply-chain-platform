@@ -5,7 +5,7 @@ import { NavLink, Navigate, Outlet } from 'react-router-dom'
 import { toggleTheme } from '@/global-states/AppSettings'
 import useTypedDispatch from '@/hooks/useTypedDispatch'
 import useTypedSelector from '@/hooks/useTypedSelector'
-import useUserLogin from '@/utils/findUser'
+import useUserLogin from '@/hooks/useUserLogin'
 
 import css from './Layout.module.css'
 

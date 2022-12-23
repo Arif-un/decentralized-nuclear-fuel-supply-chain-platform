@@ -5,7 +5,7 @@ import { useMetaMask } from 'metamask-react'
 import { toggleTheme } from '@/global-states/AppSettings'
 import useTypedDispatch from '@/hooks/useTypedDispatch'
 import useTypedSelector from '@/hooks/useTypedSelector'
-import useUserLogin from '@/utils/findUser'
+import useUserLogin from '@/hooks/useUserLogin'
 
 export default function Login() {
   const theme = useTypedSelector((state) => state.AppSettingsSlice.theme)
