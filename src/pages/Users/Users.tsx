@@ -1,78 +1,124 @@
-import { BiUserPlus } from 'react-icons/bi'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from 'react'
+import { BiTrashAlt, BiUserPlus } from 'react-icons/bi'
+import { Link } from 'react-router-dom'
 
-// import Modal from '@/components/Modal/Modal'
+import { useConnectedMetaMask } from 'metamask-react'
 
-// const users = [
-//   { id: 1, name: 'first name', role: 'admin', created_at: '12-12-2022' },
-//   { id: 2, name: 'another name', role: 'supplier', created_at: '10-10-2022' },
-// ]
+import userContract from '@/data/userContract'
+
+export interface User {
+  id?: string
+  name: string
+  accountHash: string
+  role: string
+}
+
+const fetchUser = async (ethereum: any, setUsers: (userArr: User[]) => void) => {
+  const usersArr = []
+  const userCount = await userContract(ethereum).methods.userId().call()
+
+  for (let i = 1; i <= Number(userCount); i++) {
+    const { id, name, accountHash, role } = await userContract(ethereum).methods.users(i).call()
+    usersArr.push({ id, name, accountHash, role })
+  }
+  setUsers(usersArr)
+}
 
 export default function Users() {
+  const { ethereum, account } = useConnectedMetaMask()
+  const [users, setUsers] = useState<User[]>([])
+
+  useEffect(() => {
+    fetchUser(ethereum, setUsers)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const deleteUser = (id: string, accountHash: string) => {
+    userContract(ethereum)
+      .methods.deleteUser(id, accountHash)
+      .send({ from: account, gas: 3000000 })
+      .then((res: any) => {
+        if (res.status) {
+          fetchUser(ethereum, setUsers)
+        }
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })
+  }
+
+  const updateUserRole = (id: string, name: string, accountHash: string, role: string) => {
+    userContract(ethereum)
+      .methods.updateUser(id, name, accountHash, role)
+      .send({ from: account, gas: 3000000 })
+      .then((res: any) => {
+        if (res.status) {
+          fetchUser(ethereum, setUsers)
+        }
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold mr-1">Users</h1>
-        <button type="button" className="btn btn-sm btn-outline">
+        <Link to="/add-user" className="btn btn-sm btn-outline">
           <span className="mr-2">Add User</span>
           <BiUserPlus size={22} />
-        </button>
+        </Link>
       </div>
       <div className="overflow-x-auto w- mt-3">
         <table className="table w-full">
           <thead>
             <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
               <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
+              <th>Account Hash</th>
+              <th>Role</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <td>
-                <div className="flex items-center space-x-3">
-                  <div className="avatar">
-                    <div className="mask mask-squircle w-12 h-12">
-                      <img
-                        src="/tailwind-css-component-profile-2@56w.png"
-                        alt="Avatar Tailwind CSS Component"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-bold">Hart Hagerty</div>
-                    <div className="text-sm opacity-50">United States</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                Zemlak, Daniel and Leannon
-                <br />
-                <span className="badge badge-ghost badge-sm">Desktop Support Technician</span>
-              </td>
-              <td>Purple</td>
-              <th>
-                <button className="btn btn-ghost btn-xs">details</button>
-              </th>
-            </tr>
+            {users?.map((user) => (
+              <tr key={user.id}>
+                <td>
+                  <div className="font-bold">{user.name} </div>
+                </td>
+                <td>{user.accountHash}</td>
+                <td>
+                  <select
+                    value={user.role}
+                    onChange={(e) =>
+                      updateUserRole(user.id as string, user.name, user.accountHash, e.target.value)
+                    }
+                    className="select select-bordered select-sm w-full max-w-xs"
+                  >
+                    <option disabled value="Admin">
+                      Admin
+                    </option>
+                    <option value="Security">Security</option>
+                    <option value="Supplier">Supplier</option>
+                    <option value="Importer">Importer</option>
+                    <option value="Importer">Provider</option>
+                  </select>
+                </td>
+                <td>
+                  <button
+                    onClick={() => deleteUser(user.id as string, user.accountHash)}
+                    className="btn btn-circle btn-sm"
+                    type="button"
+                  >
+                    <BiTrashAlt />
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
-
-      {/* <Modal title="Add user" open>
-        asdfasdfsadfasdf
-        asdfasdfasdf
-      </Modal> */}
     </div>
   )
 }

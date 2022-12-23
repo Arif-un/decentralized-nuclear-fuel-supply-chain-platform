@@ -15,9 +15,9 @@ contract Users {
     }
 
     constructor() {
-        createUser("name-1", "email1@m.com", "123");
-        createUser("name-2", "email2@m.com", "123");
-        createUser("name-3", "email3@m.com", "123");
+        createUser("name-1", "0xcc1e6791532974d488f84489614ea5a31bd28879", "Admin");
+        // createUser("name-2", "email2@m.com", "123");
+        // createUser("name-3", "email3@m.com", "123");
     }
 
 
@@ -26,7 +26,8 @@ contract Users {
         string memory accountHash,
         string memory role
     ) public {
-        require(!isRegistered[accountHash], "This account is already registered");
+      // TODO: admin check
+        require(!isRegistered[accountHash], "This account  is already registered");
         isRegistered[accountHash] = true;
         userId++;
         users[userId] = User(userId, name, accountHash, role);
@@ -58,11 +59,12 @@ contract Users {
         string memory accountHash,
         string memory role
     ) public {
-        require(
-            keccak256(abi.encodePacked(users[id].accountHash)) ==
-                keccak256(abi.encodePacked(accountHash)),
-            "You can only update your own account"
-        );
+        // TODO: admin check
+        // require(
+        //     keccak256(abi.encodePacked(users[id].accountHash)) ==
+        //         keccak256(abi.encodePacked(accountHash)),
+        //     "You can only update your own account"
+        // );
         users[id] = User(id, name, accountHash, role);
     }
 
@@ -74,5 +76,6 @@ contract Users {
         );
         delete users[id];
         delete isRegistered[accountHash];
+        userId--;
     }
 }
