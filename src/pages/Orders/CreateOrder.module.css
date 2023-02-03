@@ -1,0 +1,18 @@
+.img-btn img {
+  aspect-ratio: 1/1;
+  max-height: 100px;
+}
+
+.img-btn > input {
+  display: none;
+}
+
+.img-btn > img {
+  cursor: pointer;
+  border: 5px solid transparent;
+  border-radius: 15px;
+}
+
+.img-btn > input:checked + img {
+  @apply border-lime-400 shadow-md;
+}
