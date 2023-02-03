@@ -51,8 +51,8 @@ export default function AddUser() {
 
   return (
     <div>
-      <h1 className="text-lg font-bold flex items-center">
-        <Link to="/user" className="btn btn-circle btn-sm">
+      <h1 className="text-lg font-bold flex items-center gap-3">
+        <Link to="/create-order" className="btn btn-circle btn-sm btn-outline">
           <BiChevronLeft size={22} />
         </Link>
         Add New User
@@ -100,10 +100,14 @@ export default function AddUser() {
           onChange={handleAddUserForm}
           className="select select-primary w-full max-w-xs"
         >
-          <option value="Security">Security</option>
+          <option value="Security">Security Admin</option>
+          <option value="Security-Admin">Security</option>
           <option value="Supplier">Supplier</option>
+          <option value="Supplier-Admin">Supplier Admin</option>
           <option value="Importer">Importer</option>
-          <option value="Importer">Provider</option>
+          <option value="Importer-Admin">Importer Admin</option>
+          <option value="Provider">Provider</option>
+          <option value="Provider-Admin">Provider Admin</option>
         </select>
         <br />
         <br />
