@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { BiTrashAlt, BiUserPlus } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 
-import { useConnectedMetaMask } from 'metamask-react'
+import { useMetaMask } from 'metamask-react'
 
 import userContract from '@/data/userContract'
 
@@ -14,7 +14,7 @@ export interface User {
   role: string
 }
 
-const fetchUser = async (ethereum: any, setUsers: (userArr: User[]) => void) => {
+export const fetchUser = async (ethereum: any, setUsers: (userArr: User[]) => void) => {
   const usersArr = []
   const userCount = await userContract(ethereum).methods.userId().call()
 
@@ -26,7 +26,7 @@ const fetchUser = async (ethereum: any, setUsers: (userArr: User[]) => void) => 
 }
 
 export default function Users() {
-  const { ethereum, account } = useConnectedMetaMask()
+  const { ethereum, account } = useMetaMask()
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function Users() {
           <BiUserPlus size={22} />
         </Link>
       </div>
-      <div className="overflow-x-auto w- mt-3">
+      <div className="overflow-x-auto mt-3">
         <table className="table w-full">
           <thead>
             <tr>
@@ -102,13 +102,13 @@ export default function Users() {
                     <option value="Security">Security</option>
                     <option value="Supplier">Supplier</option>
                     <option value="Importer">Importer</option>
-                    <option value="Importer">Provider</option>
+                    <option value="Provider">Provider</option>
                   </select>
                 </td>
                 <td>
                   <button
                     onClick={() => deleteUser(user.id as string, user.accountHash)}
-                    className="btn btn-circle btn-sm"
+                    className="btn btn-circle btn-sm btn-outline"
                     type="button"
                   >
                     <BiTrashAlt />
