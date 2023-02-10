@@ -1,69 +1,48 @@
-# Eruption 🌋
-
-> Next Generation Boilerplate for React/Typescript, built on top of Vite ⚡️
-
-_It's fast! Even the tests are fast, thanks to Vite with Vitest ⚡️_
-
-# What's in the boilerplate
-
-- [Vite](https://vitejs.dev/)
-- [React](https://reactjs.org/)
-- [Typescript](https://www.typescriptlang.org/)
-- [Vitest](https://vitest.dev/)
-- [Testing Library](https://testing-library.com/)
-- Dev Tools
-  - [ESLint](https://eslint.org/)
-  - [Prettier](https://prettier.io/)
-  - [CommitLint](https://commitlint.js.org/#/)
-  - [Husky](https://typicode.github.io/husky/#/)
-  - [Lint-Staged](https://github.com/okonet/lint-staged)
+# Decentralized Nuclear supply chain (Demo)
 
 # Installation
+1. First, make sure you have Node.js and npm (Node Package Manager) installed on your machine. You can download them from the official website if you don't have them already.
 
-This project uses [DEGIT](https://github.com/Rich-Harris/degit) to scaffold.
+2. Next, clone or download the existing React-TypeScript project from its GitHub repository.
 
-first, clone the project and give it a name
+3. Open a terminal and navigate to the root directory of the project. Run the command npm install to install all the necessary packages for the project.
 
-```Bash
-npx degit github:eruptionjs/core#main your-project-name
+4. Install Truffle globally by running the command npm install -g truffle.
+
+5. Install Ganache by visiting their website and downloading the appropriate version for your operating system.
+
+6. Start Ganache and make a note of the network ID and port number.
+
+7. In the project root directory, create a new file named truffle-config.js and paste the following code, replacing the network ID and port number with the ones from your Ganache setup:
+8.
+```
+module.exports = {
+    networks: {
+        development: {
+            host: "127.0.0.1",
+            port: 7545,
+            network_id: "*"
+        }
+    }
+};
 ```
 
-then, to start the project
+9. Open the terminal and navigate to the project root directory and run the command truffle compile to compile the smart contracts.
 
-```Bash
-cd your-project-name
-npm install
-npm run dev
-```
+10. Run the command truffle migrate to deploy the contracts to the Ganache network.
 
-## Try it online
+11. Install Metamask browser extension and create an account or import an existing account.
 
-Want to try Eruption without clone local? Try it on [StackBlitz](https://stackblitz.com/fork/github/eruptionjs/core)
+12. Connect Metamask to the Ganache network by following these steps:
 
-# Commits
+- Click on the Metamask icon in the browser and select the "Localhost 8545" network.
+- Click on the three dots in the top right corner of the Metamask window and select "Import Account".
+- In Ganache, click on the key icon in the top right corner to reveal the private key of an account.
+- Copy the private key and paste it into the "Private Key" field in Metamask and click "Import".
 
-This project have commits configured to follow the Conventional Commits's best practice and it's configured with ESLint, Prettier and Stylelint.
+13. Now, you can run the command npm start to start the development server and run the project.
 
-To commit, you must follow the convention `<type>[optional scope]: <description>`. In practice, it would be as follow:
-
-```git
-git commit -m "feat: add button component"
-```
-
-Then, Husky will start the pre-commit hook and run lint-staged, who will run `prettier` and `lint` to validate code format and code lint. If you fail to follow any one of these validations above, the commit will be aborted.
-
-After that, if everything is validated correctly, Husky will proceed with the commit-msg hook, where he will evaluate if your commit message is following the Conventional Commit's best practice and will run the tests of your project. If any of the tests are broken, the commit will be aborted. You must fix the tests before proceeding.
-
-You can also commit your files with the help of the CLI. To do so just run `npm run commit` .From there, the CLI will assist you on the proccess. As said before: if your files fail the validation, you must fix it before proceeds.
-
-As a best practice, it is strongly suggested that you avoid skip validations. If you need to change the way your commit messages are written, just go to file `commitlint.config.ts` and you will find there the configs needed.
-
-# Motivation
-
-Everything started because I was in need of a good, solid, reliable and fast boilerplate to work with React/Typescript projects. I was working with Create-React-App and Webpack but both of them wasn't that good at all, specially in performance. Later on I discovered that I could use Vite to replace Webpack, so here we are now. =)
-
-I believe that Eruption as it is right now, is an excellent starting point to any React/Typescript project, with enough dev tools to help you to write the best software possible and ship to production without any headaches.
-
+14. Interact with the smart contract using Metamask and the web3 library in the React app.
 # License
 
 MIT
