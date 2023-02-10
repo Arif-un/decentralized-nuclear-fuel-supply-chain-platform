@@ -2,38 +2,39 @@
 pragma solidity ^0.8.13;
 
 contract Users {
-    uint256 public userId = 0;
+    uint32 public userId = 0;
 
     mapping(string => bool) isRegistered;
-    mapping(uint256 => User) public users;
+    mapping(uint32 => User) public users;
 
     struct User {
-        uint256 id;
+        uint32 id;
         string name;
         string accountHash;
         string role;
     }
 
     constructor() {
-        createUser("name-1", "0xcc1e6791532974d488f84489614ea5a31bd28879", "Admin");
-        // createUser("name-2", "email2@m.com", "123");
-        // createUser("name-3", "email3@m.com", "123");
+        createUser("Admin", "0xcc1e6791532974d488f84489614ea5a31bd28879", "Admin");
+        createUser("Importer", "0xf96ebab353f51f0d96da7ebfa07742de02e50c33", "Importer");
+        createUser("Provider", "0xe47c51f5471c4f511dc35ecbcbbcbfa423eccd9e", "Provider");
+        createUser("Supplier", "0xa232f4746d93f504eeb018460b51ba776da52dd8", "Supplier");
+        createUser("Security", "0xaeB4863f8Cb326963Bb37ec4f9C29e90d83c574c", "Security");
+        userId = 5;
     }
-
 
     function createUser(
         string memory name,
         string memory accountHash,
         string memory role
     ) public {
-      // TODO: admin check
         require(!isRegistered[accountHash], "This account  is already registered");
         isRegistered[accountHash] = true;
         userId++;
         users[userId] = User(userId, name, accountHash, role);
     }
 
-    function getUser(uint256 id) public view returns (User memory) {
+    function getUser(uint32 id) public view returns (User memory) {
         return users[id];
     }
 
@@ -42,38 +43,30 @@ contract Users {
         view
         returns (User memory)
     {
-        for (uint256 i = 1; i <= userId; i++) {
-            if (
-                keccak256(abi.encodePacked(users[i].accountHash)) ==
-                keccak256(abi.encodePacked(accountHash))
-            ) {
-                return users[i];
-            }
+      User memory user;
+      for (uint32 i = 1; i <= userId; i++) {
+        if ( keccak256(abi.encodePacked(users[i].accountHash))==keccak256(abi.encodePacked(accountHash)) ) {
+          return users[i];
         }
-        return users[0];
+      }
+      return user;
     }
 
     function updateUser(
-        uint256 id,
+        uint32 id,
         string memory name,
         string memory accountHash,
         string memory role
     ) public {
-        // TODO: admin check
-        // require(
-        //     keccak256(abi.encodePacked(users[id].accountHash)) ==
-        //         keccak256(abi.encodePacked(accountHash)),
-        //     "You can only update your own account"
-        // );
         users[id] = User(id, name, accountHash, role);
     }
 
-    function deleteUser(uint256 id, string memory accountHash) public {
-        require(
-            keccak256(abi.encodePacked(users[id].accountHash)) ==
-                keccak256(abi.encodePacked(accountHash)),
-            "You can only delete your own account"
-        );
+    function deleteUser(uint32 id, string memory accountHash) public {
+        // require(
+        //     keccak256(abi.encodePacked(users[id].accountHash)) ==
+        //         keccak256(abi.encodePacked(accountHash)),
+        //     "You can only delete your own account"
+        // );
         delete users[id];
         delete isRegistered[accountHash];
         userId--;
