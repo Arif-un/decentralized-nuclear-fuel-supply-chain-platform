@@ -1,10 +1,44 @@
+import { useEffect, useState } from 'react'
 import { MdTimelapse } from 'react-icons/md'
-import { TbBuildingWarehouse, TbTruckDelivery } from 'react-icons/tb'
+import { TbTruckDelivery } from 'react-icons/tb'
+
+import { useMetaMask } from 'metamask-react'
+
+import type { Order } from '../Orders/Orders'
+import { fetchOders } from '../Orders/Orders'
+
+const countOnProgress = (orders: Order[] | undefined) => {
+  if (!orders) {
+    return 0
+  }
+  const onProgress = orders.filter((order) => order.deliveryStatus.eta !== '')
+  return onProgress.length
+}
+
+const countOnPending = (orders: Order[] | undefined) => {
+  if (!orders) {
+    return 0
+  }
+  const onPending = orders.filter((order) => order.orderStatus.providerApproval === 'pending')
+  return onPending.length
+}
 
 export default function Dashboard() {
-  const onProgress = 2
-  const onPending = 3
-  const stockCapacity = '40%'
+  const { ethereum, account } = useMetaMask()
+
+  const [orders, setOrders] = useState<Order[]>()
+
+  useEffect(() => {
+    if (account) {
+      fetchOders(ethereum, setOrders)
+    }
+  }, [account, ethereum])
+
+  // console.log(orders)
+  const onProgress = countOnProgress(orders)
+  const onPending = countOnPending(orders)
+  // console.log(totalProgress)
+  // const countOrProgress = orders?.
 
   const cards = [
     {
@@ -16,11 +50,6 @@ export default function Dashboard() {
       title: 'On Pending',
       icon: <MdTimelapse size={45} />,
       value: onPending,
-    },
-    {
-      title: 'Stock Capacity',
-      icon: <TbBuildingWarehouse size={45} />,
-      value: stockCapacity,
     },
   ]
 
