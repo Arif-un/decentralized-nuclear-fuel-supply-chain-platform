@@ -1,5 +1,3 @@
-import { Navigate } from 'react-router-dom'
-
 import { useMetaMask } from 'metamask-react'
 
 import { toggleTheme } from '@/global-states/AppSettings'
@@ -11,11 +9,7 @@ export default function Login() {
   const theme = useTypedSelector((state) => state.AppSettingsSlice.theme)
   const dispatch = useTypedDispatch()
   const metamask = useMetaMask()
-  const userLogin = useUserLogin()
-
-  if (userLogin) {
-    return <Navigate replace to="/dashboard" />
-  }
+  useUserLogin()
 
   const handleLogin = () => {
     if (!window?.ethereum) {
@@ -33,7 +27,6 @@ export default function Login() {
           },
         ],
       })
-      // metamask.connect
     }
   }
 
@@ -65,7 +58,13 @@ export default function Login() {
       dark:border-slate-600
       dark:bg-slate-800"
       >
-        <h1 className="text-center font-semibold text-lg">Login 🚀</h1>
+        <img
+          width="260"
+          className="mx-auto"
+          src="https://cdn3d.iconscout.com/3d/free/thumb/login-3543023-2969410.png"
+          alt="login illustration"
+        />
+
         <br />
 
         <button className="btn btn-primary mt-4" onClick={handleLogin}>
