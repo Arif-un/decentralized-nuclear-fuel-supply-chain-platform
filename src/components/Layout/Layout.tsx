@@ -1,6 +1,6 @@
-import { FiUser } from 'react-icons/fi'
+import { FiPackage, FiUser } from 'react-icons/fi'
 import { MdOutlineSpaceDashboard } from 'react-icons/md'
-import { NavLink, Navigate, Outlet } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 
 import { toggleTheme } from '@/global-states/AppSettings'
 import useTypedDispatch from '@/hooks/useTypedDispatch'
@@ -10,19 +10,16 @@ import useUserLogin from '@/hooks/useUserLogin'
 import css from './Layout.module.css'
 
 const sidebarLinks = [
-  { to: '/dashboard', label: 'Dashborad', icon: <MdOutlineSpaceDashboard size={18} /> },
-  { to: '/suppliers', label: 'Suppliers' },
+  { to: '/dashboard', label: 'Dashboard', icon: <MdOutlineSpaceDashboard size={18} /> },
   { to: '/users', label: 'Users', icon: <FiUser size={18} /> },
+  { to: '/orders', label: 'Orders', icon: <FiPackage size={18} /> },
 ]
 
 export default function Layout() {
   const theme = useTypedSelector((state) => state.AppSettingsSlice.theme)
   const dispatch = useTypedDispatch()
-  const userLogin = useUserLogin()
-
-  if (!userLogin) {
-    return <Navigate replace to="/login" />
-  }
+  useUserLogin()
+  const userName = useTypedSelector((state) => state.UserSlice.name)
 
   return (
     <div className="h-full">
@@ -40,21 +37,21 @@ export default function Layout() {
         <div className="flex items-center">
           <div className="dropdown dropdown-end">
             <button className="flex items-center gap-2 mr-3">
-              <span className="font-semibold text-sm">User</span>
+              <span className="font-semibold text-sm">{userName}</span>
               <div className="avatar">
                 <div className="w-7 mask mask-hexagon">
                   <img alt="avater" src="https://placeimg.com/192/192/people" />
                 </div>
               </div>
             </button>
-            <ul className="dropdown-content menu p-2 shadow border border-gray-200 dark:border-gray-700 bg-base-100 rounded-box w-52">
+            {/* <ul className="dropdown-content menu p-2 shadow border border-gray-200 dark:border-gray-700 bg-base-100 rounded-box w-52">
               <li>
                 <a href="/profile">Profile</a>
               </li>
               <li>
                 <a href="/signout">Sign out</a>
               </li>
-            </ul>
+            </ul> */}
           </div>
 
           <label className="swap swap-rotate">
@@ -95,7 +92,9 @@ export default function Layout() {
           </ul>
         </aside>
 
-        <main className={`dark:bg-slate-800 rounded-xl p-5 bg-slate-100 ${css.main}`}>
+        <main
+          className={`dark:bg-slate-800 rounded-xl p-5 bg-slate-100 ${css.main} overflow-y-scroll`}
+        >
           <Outlet />
         </main>
       </div>
